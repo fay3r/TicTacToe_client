@@ -6,33 +6,28 @@ import java.awt.event.MouseListener;
 import java.awt.geom.Line2D;
 import javax.swing.*;
 
-public class Game extends JPanel implements MouseListener  {
+public class Game extends JPanel implements MouseListener {
 
     private boolean isInside = false;
     private boolean circle = false;
     private boolean first = false;
-
     private GameStatus status = GameStatus.Null;
     private Board level = new Board();
     final private network net = new network();
 
-    Game()
-    {
+    Game() {
         addMouseListener(this);
     }
 
-    void runGame(){
-        try
-        {
+    void runGame() {
+        try {
             network.reset();
 
-            if(!first)
-            {
-                if(circle) {
+            if (!first) {
+                if (circle) {
                     network.bot('X');
 
-                }
-                else {
+                } else {
                     network.bot('O');
                 }
 
@@ -41,9 +36,7 @@ public class Game extends JPanel implements MouseListener  {
 
             level = network.result();
 
-        }
-        catch(Exception ignored)
-        {
+        } catch (Exception ignored) {
             status = GameStatus.Exception;
         }
 
@@ -81,52 +74,41 @@ public class Game extends JPanel implements MouseListener  {
 
         Point point = e.getPoint();
 
-        if(isInside)
-        {
+        if (isInside) {
             int x = point.x / 100;
             int y = point.y / 100;
 
-            if(x < 0 || x > 2)
-            {
+            if (x < 0 || x > 2) {
                 x = -1;
             }
 
-            if(y < 0 || y > 3)
-            {
+            if (y < 0 || y > 3) {
                 y = -1;
             }
 
-            try
-            {
-                if(first && x >-1 && y >-1 && level.getField(x, y) == null && !level.isFull())
-                {
+            try {
+                if (first && x > -1 && y > -1 && level.getField(x, y) == null && !level.isFull()) {
                     first = false;
 
-                    if(circle)
-                    {
-                        network.user(new User(x+1, y+1, 'O'));
+                    if (circle) {
+                        network.user(new User(x + 1, y + 1, 'O'));
 
                         level = network.result();
 
-                        if(!level.isFull()) {
+                        if (!level.isFull()) {
                             network.bot('X');
-                        }
-                        else
-                        {
+                        } else {
                             status = GameStatus.Full;
                         }
 
-                    }
-                    else {
-                        network.user(new User(x+1, y+1, 'X'));
+                    } else {
+                        network.user(new User(x + 1, y + 1, 'X'));
 
                         level = network.result();
 
-                        if(!level.isFull()) {
+                        if (!level.isFull()) {
                             network.bot('O');
-                        }
-                        else
-                        {
+                        } else {
                             status = GameStatus.Full;
                         }
 
@@ -137,9 +119,7 @@ public class Game extends JPanel implements MouseListener  {
 
                     first = true;
                 }
-            }
-            catch(Exception exp)
-            {
+            } catch (Exception exp) {
                 status = GameStatus.Exception;
             }
 
@@ -152,21 +132,15 @@ public class Game extends JPanel implements MouseListener  {
 
     }
 
-    void updateGame()
-    {
+    void updateGame() {
 
-        if((level.check('X') && !circle) || (level.check('O') && circle))
-        {
+        if ((level.check('X') && !circle) || (level.check('O') && circle)) {
             System.err.println("Player win");
             status = GameStatus.Player;
-        }
-        else if((level.check('O') && !circle) || (level.check('X') && circle))
-        {
+        } else if ((level.check('O') && !circle) || (level.check('X') && circle)) {
             System.err.println("Computer win");
             status = GameStatus.Computer;
-        }
-        else if(level.isFull())
-        {
+        } else if (level.isFull()) {
             System.err.println("Level is full");
             status = GameStatus.Full;
         }
@@ -174,7 +148,7 @@ public class Game extends JPanel implements MouseListener  {
     }
 
     @Override
-    public void paint (Graphics g){
+    public void paint(Graphics g) {
 
         super.paint(g);
 
@@ -189,7 +163,7 @@ public class Game extends JPanel implements MouseListener  {
 
         g2.draw(new Line2D.Float(200, 0, 200, 300));
 
-        for( int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (level.getField(i, j) != null) {
 
@@ -219,8 +193,7 @@ public class Game extends JPanel implements MouseListener  {
 
     }
 
-    public GameStatus getStatus()
-    {
+    public GameStatus getStatus() {
         return status;
     }
 

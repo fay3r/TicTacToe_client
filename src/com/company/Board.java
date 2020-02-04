@@ -11,38 +11,30 @@ public class Board implements Serializable {
 
     }
 
-    public Character getField(int x, int y)
-    {
+    public Character getField(int x, int y) {
         return plansza[x][y];
     }
 
-    public void setField(int x, int y, Character sym)
-    {
+    public void setField(int x, int y, Character sym) {
         plansza[x][y] = sym;
     }
 
-    public boolean check(Character val)
-    {
-        for(int i = 0; i<3; i++)
-        {
-            if(plansza[i][0] == val && plansza[i][1] == val && plansza[i][2] == val)
-            {
+    public boolean check(Character val) {
+        for (int i = 0; i < 3; i++) {
+            if (plansza[i][0] == val && plansza[i][1] == val && plansza[i][2] == val) {
                 return true;
             }
 
-            if(plansza[0][i] == val && plansza[1][i] == val && plansza[2][i] == val)
-            {
+            if (plansza[0][i] == val && plansza[1][i] == val && plansza[2][i] == val) {
                 return true;
             }
         }
 
-        if(plansza[0][0] == val && plansza[1][1] == val && plansza[2][2] == val)
-        {
+        if (plansza[0][0] == val && plansza[1][1] == val && plansza[2][2] == val) {
             return true;
         }
 
-        if(plansza[2][0] == val && plansza[1][1] == val && plansza[0][2] == val)
-        {
+        if (plansza[2][0] == val && plansza[1][1] == val && plansza[0][2] == val) {
             return true;
         }
 
@@ -51,14 +43,10 @@ public class Board implements Serializable {
     }
 
 
-    public boolean isFull()
-    {
-        for(int i = 0; i < 3; i++)
-        {
-            for(int j = 0; j <3; j++)
-            {
-                if(plansza[i][j] == null)
-                {
+    public boolean isFull() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (plansza[i][j] == null) {
                     return false;
                 }
             }

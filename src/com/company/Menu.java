@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Menu implements ActionListener, Runnable  {
+public class Menu implements ActionListener, Runnable {
 
     private JButton StartButton = new JButton();
     private JLabel nameLabel = new JLabel();
@@ -16,11 +16,9 @@ public class Menu implements ActionListener, Runnable  {
     private Game game = new Game();
     private JButton retry = new JButton("Retry");
     private JLabel status = new JLabel();
-
     private Thread thread = null;
 
-    Menu()
-    {
+    Menu() {
         frame.setSize(320, 340);
         frame.setLayout(null);
         frame.setVisible(true);
@@ -29,7 +27,7 @@ public class Menu implements ActionListener, Runnable  {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         game.setSize(320, 340);
-        game.setLocation(0,0);
+        game.setLocation(0, 0);
         game.setVisible(false);
         frame.add(game);
 
@@ -52,7 +50,6 @@ public class Menu implements ActionListener, Runnable  {
         frame.add(StartButton);
         StartButton.addActionListener(this);
 
-        //retry menu
         status.setText("  GAME MENU");
         status.setBounds(110, 120, 100, 30);
         frame.add(status);
@@ -62,29 +59,22 @@ public class Menu implements ActionListener, Runnable  {
         frame.add(retry);
         retry.addActionListener(this);
         retry.setVisible(false);
-
     }
 
     public void actionPerformed(ActionEvent event) {
         Object source = event.getSource();
 
-        if (source == StartButton)
-        {
+        if (source == StartButton) {
             if (select.getSelectedIndex() != 0) {
                 game.setCircle(false);
-            }
-            else
-            {
+            } else {
                 game.setCircle(true);
             }
 
             if (select2.getSelectedIndex() != 0) {
                 game.setFirst(false);
-            }
-            else
-            {
+            } else {
                 game.setFirst(true);
-
             }
 
             StartButton.setVisible(false);
@@ -113,16 +103,14 @@ public class Menu implements ActionListener, Runnable  {
 
     }
 
-    public void gameStatus()
-    {
-        while(true) {
+    public void gameStatus() {
+        while (true) {
 
             if (game.getStatus().equals(GameStatus.Player)) {
                 status.setText("PLAYER WIN");
                 game.setVisible(false);
                 status.setVisible(true);
                 retry.setVisible(true);
-
                 return;
             }
 
@@ -131,15 +119,14 @@ public class Menu implements ActionListener, Runnable  {
                 game.setVisible(false);
                 status.setVisible(true);
                 retry.setVisible(true);
-
-                return;            }
+                return;
+            }
 
             if (game.getStatus().equals(GameStatus.Full)) {
                 status.setText("BBOARD IS FULL");
                 game.setVisible(false);
                 status.setVisible(true);
                 retry.setVisible(true);
-
                 return;
             }
 
@@ -148,7 +135,6 @@ public class Menu implements ActionListener, Runnable  {
                 game.setVisible(false);
                 status.setVisible(true);
                 retry.setVisible(true);
-
                 return;
             }
 
@@ -159,9 +145,7 @@ public class Menu implements ActionListener, Runnable  {
     }
 
     @Override
-    public void run()
-    {
-        System.err.println("Create new thread");
+    public void run() {
         gameStatus();
     }
 }
