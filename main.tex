@@ -1,0 +1,212 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Dokumentacja}
+\author{Kamil Zachara}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage[margin=0.5in]{geometry}
+
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\begin{document}
+
+\maketitle
+
+\section{Opis projektu}
+Projekt ten jest implementacją gry "Kółko krzyżyk" w oparciu o architekturę klient-serwer.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.8]{menu.png}
+\caption{Menu programu}
+\end{figure}
+
+\section{Instrukcja}
+Menu Programu pozwala na wybór figury którą będziemy umieszczać na planszy (w przeciwnieństwie do klasycznej wersji gry, wybór X nie oznacza że zaczynamy jako gracz 2)
+następną z opcji jest określenie kolejności gry(najprościej mówiąc, określamy kto zaczyna pierwszy, gracz lub komputer)
+\newpage
+\section{Gra z komputerem}
+Algorytm pracy wbudowanego w grę AI wybiera losowe wolne pole, w którym stawia przypisany mu symbol.
+
+\subsection{Kod Ai}
+\begin{lstlisting}
+    public Board aiMoveFunction(AiMoveDto move) {
+        Random rand = new Random();
+        for(int i=0;i<board.gameBoard.length;i++){
+            for(int j=0;j<board.gameBoard[i].length;j++){
+                if(board.gameBoard[i][j]==null){
+                    while(true){
+                        int x = rand.nextInt(3);
+                        int y = rand.nextInt(3);
+                        Character tmp = board.gameBoard[x][y];
+                        System.out.println(x + " " + y + " " + tmp);
+                        if (tmp == null){
+                            System.out.println("#END");
+                            board.gameBoard[x][y] = move.getMark();
+                            break;
+                        }
+                    }
+                    return board;
+                }
+            }
+        }
+        return null;
+    }
+\end{lstlisting}
+
+
+\section{Usługi serwera}
+
+\subsection{result()}
+URL Usługi: 127.0.0.1:8080/tictactoe/result
+
+Typ żadania: GET
+
+Parametry wejściowe(JSON): Brak
+
+Parametry Wyjścowe(JSON):
+
+\begin{lstlisting}
+["x", null, "o",
+"x", "x", "o",
+"o", "o", null]
+\end{lstlisting}
+
+Kod odpowiedzi serwera: 200
+
+
+
+\subsection{restartGameFunction()}
+
+URL Usługi: 127.0.0.1:8080/tictactoe/reset-game 
+
+Typ żadania: POST 
+
+Parametry wejściowe(JSON): Brak 
+
+Parametry Wyjścowe(JSON): Brak 
+
+Kod odpowiedzi serwera: 200 
+
+\newpage
+
+
+
+\subsection{UserMoveDto()}
+URL Usługi: 127.0.0.1:8080/tictactoe/set-field-by-user
+
+Typ żadania: POST
+
+Parametry wejściowe(JSON): 
+
+\begin{lstlisting}
+{
+    "fieldX": "0",
+    "fieldY": "0",
+    "mark": "x"
+}
+\end{lstlisting}
+
+Parametry Wyjścowe(JSON): Brak 
+
+Kod odpowiedzi serwera: 200
+
+\subsection{AiMoveDto()}
+URL Usługi: 127.0.0.1:8080/tictactoe/set-field-by-ai
+
+Typ żadania: POST
+
+Parametry wejściowe(JSON): 
+
+\begin{lstlisting}
+{
+    "mark": "o"
+}
+\end{lstlisting}
+
+Parametry Wyjścowe(JSON): Brak 
+
+Kod odpowiedzi serwera:
+
+- 200 gdy zostało wypełnione pole
+
+- 400 gdy tablica jest wypełniona w całości
+
+
+
+\section{Narzędzia wykorzystane w projekcie}
+\subsection{InteliJ IDEA}
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{intelij.png}
+\end{figure}
+Do stworzenie projektu skorzystaliśmy ze środowiska programistycznego od JetBrains.
+\subsection{Postman}
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{postman.png}
+\end{figure}
+Do testowania API użyty został program Postman.
+Pozwala na wykonywanie zapytań do aplikacji, następnie zwracając ich wyniki, dzięki czemu .jest niezwykle użyteczna podczas testowania funkcjinalności aplikacji.
+\newpage
+\subsection{Maven}
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{maven.png}
+\end{figure}
+Narzędzie automatyzujące budowę oprogramowania na platformę Java.
+Automatyzuje proces dodawania wtyczek do programu, pobierając je przy pierwszym ich użyciu
+
+\subsection{Bitbucket}
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{bitbucket.png}
+\end{figure}
+Usługa hostingowa, używana do tworzenia kodu źródłowego.
+Pozwala na bezpieczne "przechowywanie kodu" w chmurze, oraz podział aplikacji na poszczególne "branche" co pozwala na rozwijanie aplikacji w bezpieczniejszy sposób gdyż zmiany jednej rzeczy nie wpływają na główną aplikację, do momentu dołączenia zmian do brancha głównego
+
+\subsection{Lombok}
+Biblioteka, automatyzująca tworzenie setterów i getterów
+
+
+
+
+
+
+
+\section{Podział prac}
+\begin{center}
+Server - Patryk Starzycki
+
+Client - Maciej Szostak
+
+Dokumentacja - Kamil Zachara
+\end{center}
+
+\end{document}
+
+
