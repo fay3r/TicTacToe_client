@@ -5,36 +5,36 @@ import java.util.Arrays;
 
 public class Board implements Serializable {
 
-    private Character[][] plansza = new Character[3][3];
+    private Character[][] gameBoard = new Character[3][3];
 
     public Board() {
 
     }
 
     public Character getField(int x, int y) {
-        return plansza[x][y];
+        return gameBoard[x][y];
     }
 
     public void setField(int x, int y, Character sym) {
-        plansza[x][y] = sym;
+        gameBoard[x][y] = sym;
     }
 
     public boolean check(Character val) {
         for (int i = 0; i < 3; i++) {
-            if (plansza[i][0] == val && plansza[i][1] == val && plansza[i][2] == val) {
+            if (gameBoard[i][0] == val && gameBoard[i][1] == val && gameBoard[i][2] == val) {
                 return true;
             }
 
-            if (plansza[0][i] == val && plansza[1][i] == val && plansza[2][i] == val) {
+            if (gameBoard[0][i] == val && gameBoard[1][i] == val && gameBoard[2][i] == val) {
                 return true;
             }
         }
 
-        if (plansza[0][0] == val && plansza[1][1] == val && plansza[2][2] == val) {
+        if (gameBoard[0][0] == val && gameBoard[1][1] == val && gameBoard[2][2] == val) {
             return true;
         }
 
-        if (plansza[2][0] == val && plansza[1][1] == val && plansza[0][2] == val) {
+        if (gameBoard[2][0] == val && gameBoard[1][1] == val && gameBoard[0][2] == val) {
             return true;
         }
 
@@ -46,7 +46,7 @@ public class Board implements Serializable {
     public boolean isFull() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (plansza[i][j] == null) {
+                if (gameBoard[i][j] == null) {
                     return false;
                 }
             }
@@ -58,7 +58,7 @@ public class Board implements Serializable {
     @Override
     public String toString() {
         return "map{" +
-                "plansza=" + Arrays.toString(plansza) +
+                "plansza=" + Arrays.toString(gameBoard) +
                 '}';
     }
 }

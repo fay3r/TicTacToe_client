@@ -1,6 +1,7 @@
 package com.company;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -23,8 +24,10 @@ public class Menu implements ActionListener, Runnable {
         frame.setLayout(null);
         frame.setVisible(true);
         frame.setTitle("Tic Tac Toe");
-        frame.setResizable(true);
+        frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width-320)/2,(Toolkit.getDefaultToolkit().getScreenSize().height-340)/2);
+
 
         game.setSize(320, 340);
         game.setLocation(0, 0);
